@@ -120,3 +120,24 @@ namespace CassandraQuickStartSample
         }
     }
 }
+
+/* CLI Commands
+export rg=bartr5
+export loc=centralus
+export CNAME=bartr5
+
+az group create -g $rg -l $loc
+
+az cosmosdb create -g $rg -n $CNAME --capabilities EnableCassandra
+
+export CPASS=$(az cosmosdb list-keys -g $rg -n $CNAME | jq -r '.primaryMasterKey')
+
+az cosmosdb database create -g $rg -n $CNAME --db-name myapp
+
+cd ~
+git clone https://github.com/bartr/cass-core
+cd cass-core
+dotnet restore
+dotnet run
+
+*/
