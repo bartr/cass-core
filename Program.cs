@@ -10,8 +10,8 @@ namespace CassandraQuickStartSample
     public class Program
     {
         // Change UserName / Password
-        static string UserName = System.Environment.GetEnvironmentVariable("cosmos_name"); 
-        static string Password = System.Environment.GetEnvironmentVariable("cosmos_password");
+        static string UserName = System.Environment.GetEnvironmentVariable("cosmos_name", EnvironmentVariableTarget.User); 
+        static string Password = System.Environment.GetEnvironmentVariable("cosmos_password", EnvironmentVariableTarget.User);
 
         public static void Main(string[] args)
         {
