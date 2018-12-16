@@ -15,8 +15,6 @@ namespace CassandraQuickStartSample
 
         public static void Main(string[] args)
         {
-UserName = "bartr4";
-Password = "5dseP3yuS5OcpE83ZcsKNWnioLe6dRD1ycBBmExmD7hThP9sAwlSkC7hLiuiz8GKLOaBJp8iWEfTN7O64azdWw==";
             if (string.IsNullOrEmpty(UserName))
             {
                 Console.WriteLine("Invalid User Name\n\nSet cosmos_name environment value");
