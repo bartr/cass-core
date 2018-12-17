@@ -1,17 +1,17 @@
 # Azure CosmosDB Cassandra .NET Core sample app
 
-This is a simple sample app written in .NET Core 2.2 that connects to Azure CosmosDB via the Cassandra driver.
+This is a sample app written in .NET Core 2.2 that connects to Azure CosmosDB via the Cassandra driver.
 
 The app demonstrates inserting and reading a simple table.
 
-The app has been tested from Windows 10, Ubuntu 18.04 and Azure Shell (bash)
+The app has been tested on Windows 10, Ubuntu 18.04 and Azure Shell (bash)
 
-Installation has been tested from Ubuntu 18.04 and Azure Shell (bash)
+Installation has been tested on Ubuntu 18.04 and Azure Shell (bash)
 
 ## Prerequisites
 
 - Azure Subscription
-- Azure Shell
+- Azure Cloud Shell
 
 If you prefer to use your own VM / container, the following are required:
 
@@ -21,13 +21,13 @@ If you prefer to use your own VM / container, the following are required:
 
 ## Installation
 
-### From Azure Shell (bash)
+### From Azure Cloud Shell (bash)
 
 ~~~~
 export rg=YourResourceGroupName
 export loc=YourLocation
    i.e. centralus
-export cname=CosmosDBName
+export cname=YourCosmosDBName
    must be unique across CosmosDB as it's part of the DNS name
 ~~~~
 
