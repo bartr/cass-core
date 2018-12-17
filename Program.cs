@@ -10,8 +10,8 @@ namespace CassandraQuickStartSample
     public class Program
     {
         // Change UserName / Password
-        static string UserName = System.Environment.GetEnvironmentVariable("CNAME"); 
-        static string Password = System.Environment.GetEnvironmentVariable("CPASS");
+        static string UserName = System.Environment.GetEnvironmentVariable("cname"); 
+        static string Password = System.Environment.GetEnvironmentVariable("cpass");
 
         public static void Main(string[] args)
         {
