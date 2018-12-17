@@ -1,32 +1,69 @@
-# cass-core
+# Azure CosmosDB Cassandra .NET Core sample app
 
-## CosmosDB Cassandra .NET Core sample app
+This is a simple sample app written in .NET Core 2.2 that connects to Azure CosmosDB via the Cassandra driver.
+
+The app demonstrates inserting and reading a simple table.
+
+The app has been tested from Windows 10, Ubuntu 18.04 and Azure Shell (bash)
+
+Installation has been tested from Ubuntu 18.04 and Azure Shell (bash)
+
+## Prerequisites
+
+- Azure Subscription
+- Azure Shell
+
+If you prefer to use your own VM / container, the following are required:
+
+- Azure CLI
+- dotnet Core 2.2
+- jq (sudo apt-get install jq)
 
 ## Installation
 
-From Azure Shell
+### From Azure Shell (bash)
 
-export rg=<<Your Resource Group Name>>
-export loc=<<location - i.e. centralus>>
-export cname=<<Cosmos Name - must be unique across Cosmos as it's part of the DNS name>>
+~~~~
+export rg=YourResourceGroupName
+export loc=YourLocation
+   i.e. centralus
+export cname=CosmosDBName
+   must be unique across CosmosDB as it's part of the DNS name
+~~~~
 
-Create resource group (skip this if RG exists)
+### Create resource group
+
+~~~~
 az group create -g $rg -l $loc
+~~~~
 
-Create CosmosDB for Cassandra using defaults
+### Create CosmosDB for Cassandra using defaults
+
+~~~~
 az cosmosdb create -g $rg -n $cname --capabilities EnableCassandra
+~~~~
 
-Get the CosmosDB connection key
+### Get the CosmosDB connection key
+
+~~~~
 export cpass=$(az cosmosdb list-keys -g $rg -n $cname | jq -r '.primaryMasterKey')
+~~~~
 
-Create the CosmosDB database named myapp
+### Create the CosmosDB database named myapp
+
+~~~~
 az cosmosdb database create -g $rg -n $cname --db-name myapp
+~~~~
 
-Clone the repo into your home directory (or wherever)
-cd ~
+### Clone the repo
+
+~~~~
 git clone https://github.com/bartr/cass-core
 cd cass-core
+~~~~
 
-Restore the packages and run the app
+### Restore the packages and run the app
+~~~~
 dotnet restore
 dotnet run
+~~~~
