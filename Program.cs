@@ -9,7 +9,7 @@ namespace CassandraQuickStartSample
 {
     public class Program
     {
-        // Change UserName / Password
+        // Get UserName / Password from environment
         static string UserName = System.Environment.GetEnvironmentVariable("cname"); 
         static string Password = System.Environment.GetEnvironmentVariable("cpass");
 
@@ -17,13 +17,13 @@ namespace CassandraQuickStartSample
         {
             if (string.IsNullOrEmpty(UserName))
             {
-                Console.WriteLine("Invalid User Name\n\nSet cosmos_name environment value");
+                Console.WriteLine("Invalid User Name\n\nExport cname environment value");
                 return;
             }
 
             if (string.IsNullOrEmpty(Password))
             {
-                Console.WriteLine("Invalid Password\n\nSet cosmos_password environment value");
+                Console.WriteLine("Invalid Password\n\nExport cpass environment value");
                 return;
             }
 
@@ -37,39 +37,28 @@ namespace CassandraQuickStartSample
             ISession session = cluster.Connect("myapp");
             Console.WriteLine("connected to myapp");
 
-
+            // create a new table each time the app runs
             session.Execute("DROP TABLE IF EXISTS user;");
-            // session.Execute("DROP KEYSPACE IF EXISTS myapp;");
 
             // Create table
-            // session.Execute("CREATE KEYSPACE IF NOT EXISTS myapp WITH REPLICATION = { 'class' : 'SimpleStrategy', 'replication_factor' : 3 } ;");
+            // Set CosmosDB RUs to 400 (lowest possible)
             session.Execute("CREATE TABLE IF NOT EXISTS user (userid int, name text, PRIMARY KEY (userid)) WITH cosmosdb_provisioned_throughput=400");
 
             const string sql = "insert into user (userid, name) values ({0}, '{1}')";
-
-            session.Execute(string.Format(sql, 1, "Bart"));
-
-            int max = 0;
-            int i = 0;
-            var rs = session.Execute("select userid from user");
-            foreach (var r in rs)
-            {
-                i = r.GetValue<int>(0);
-                max = i > max ? i:max;
-            }
-            Console.WriteLine(max);
+            int id = 0;
 
             // insert via execute
-            session.Execute(string.Format(sql, ++max, "LyubovK"));
-            session.Execute(string.Format(sql, ++max, "JiriK"));
-            session.Execute(string.Format(sql, ++max, "IvanH"));
+            session.Execute(string.Format(sql, ++id, "Bart"));
+            session.Execute(string.Format(sql, ++id, "Carla"));
+            session.Execute(string.Format(sql, ++id, "Joshua"));
+            session.Execute(string.Format(sql, ++id, "Sasha"));
 
             IMapper mapper = new Mapper(session);
 
-            // insert via mapper
-            mapper.Insert<User>(new User(++max, "LiliyaB"));
-            mapper.Insert<User>(new User(++max, "JindrichH"));
+            // insert via mapper (just another way to insert)
+            mapper.Insert<User>(new User(++id, "Matthew"));
 
+            // query via mapper
             Console.WriteLine("Select ALL");
             Console.WriteLine("-------------------------------");
             foreach (User user in mapper.Fetch<User>("Select * from user"))
@@ -77,20 +66,22 @@ namespace CassandraQuickStartSample
                 Console.WriteLine(user);
             }
 
-            i = 1;
-            Console.WriteLine("\nGetting by id {0}", i);
+            Console.WriteLine("\n\nSelect one user");
             Console.WriteLine("-------------------------------");
-            User userId3 = mapper.FirstOrDefault<User>("Select * from user where userid = ?", i);
-            Console.WriteLine(userId3);
 
+            // query via RowSet
+            var rs = session.Execute("select userid, name from user where userid = 1");
+            foreach (var r in rs)
+            {
+                int userid = r.GetValue<int>(0);
+                string name = r.GetValue<string>(1);
+                Console.WriteLine(string.Format(" {0} | {1} ", userid, name));
+            }
         }
 
-        public static bool ValidateServerCertificate(
-            object sender,
-            X509Certificate certificate,
-            X509Chain chain,
-            SslPolicyErrors sslPolicyErrors)
+        public static bool ValidateServerCertificate(object sender, X509Certificate certificate, X509Chain chain, SslPolicyErrors sslPolicyErrors)
         {
+            // callback that verifies certificate is setup correctly
             if (sslPolicyErrors == SslPolicyErrors.None) {
                 return true;
             }
@@ -105,6 +96,7 @@ namespace CassandraQuickStartSample
 
     public class User
     {
+        // used by Mapper to query / insert
         public int userid { get; set; }
         public string name { get; set; }
 
