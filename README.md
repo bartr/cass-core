@@ -4,9 +4,9 @@ This is a sample app written in .NET Core 2.2 that connects to Azure CosmosDB vi
 
 The app demonstrates inserting and reading a simple table.
 
-The app has been tested on Windows 10, Ubuntu 18.04 and Azure Shell (bash)
+The app has been tested on Windows 10, Ubuntu 18.04 and Azure Cloud Shell (bash)
 
-Installation has been tested on Ubuntu 18.04 and Azure Shell (bash)
+Installation has been tested on Ubuntu 18.04 and Azure Cloud Shell (bash)
 
 ## Prerequisites
 
