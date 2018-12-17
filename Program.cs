@@ -15,12 +15,14 @@ namespace CassandraQuickStartSample
 
         public static void Main(string[] args)
         {
+            // validate UserName
             if (string.IsNullOrEmpty(UserName))
             {
                 Console.WriteLine("Invalid User Name\n\nExport cname environment value");
                 return;
             }
 
+            // validate password
             if (string.IsNullOrEmpty(Password))
             {
                 Console.WriteLine("Invalid Password\n\nExport cpass environment value");
